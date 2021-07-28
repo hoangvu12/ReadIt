@@ -2,7 +2,8 @@
   "builds": {
     "android": {
       "release": {
-        "workflow": "managed"
+        "workflow": "managed",
+        "buildType": "apk"
       }
     },
     "ios": {
