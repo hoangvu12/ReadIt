@@ -2,7 +2,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
 import { RouteProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Dimensions,
   FlatList,
@@ -17,6 +17,7 @@ import useMangaImages from "../../hooks/useMangaImages";
 import MangaImageLayout from "../../loaders/MangaImageLayout";
 import { Chapter, MangaInfo, RootStackParamList } from "../../types";
 import { moderateScale } from "../../utils/scale";
+import Storage from "../../utils/storage";
 
 const { width } = Dimensions.get("screen");
 
@@ -31,12 +32,22 @@ type ReadScreenProps = {
   navigation: ReadScreenNavigationProp;
 };
 
+const handleRenderImage = ({ item }: { item: string }) => (
+  <Image width={width} source={{ uri: item }} />
+);
+
+const keyExtractor = (_: any, i: number) => i.toString();
+
+const storageKey = "visited";
+
 export default function ReadScreen({ route }: ReadScreenProps) {
   const queryClient = useQueryClient();
   const {
     mangaId,
     mangaSlug,
     chapterIndex: initialChapterIndex = 0,
+    image,
+    title,
   } = route.params;
 
   const infoData = queryClient.getQueryData<MangaInfo>([
@@ -47,15 +58,30 @@ export default function ReadScreen({ route }: ReadScreenProps) {
   const [chapters] = useState<Chapter[]>(() => infoData!.chapters);
   const [chapterIndex, setChapterIndex] = useState(initialChapterIndex);
 
+  useEffect(() => {
+    const storeData = async () => {
+      Storage.update(
+        storageKey,
+        { id: mangaId },
+        {
+          slug: mangaSlug,
+          id: mangaId,
+          chapterIndex,
+          image,
+          title,
+          recentChapters: [chapters[chapterIndex]],
+        }
+      );
+    };
+
+    storeData();
+  }, [chapterIndex]);
+
   const { data: images, isLoading } = useMangaImages({
     nameSlug: mangaSlug,
     chapterId: chapters[chapterIndex].id,
     chapterSlug: chapters[chapterIndex].slug,
   });
-
-  const handleRenderImage = ({ item }: { item: string }) => (
-    <Image width={width} source={{ uri: item }} />
-  );
 
   const handleArrowLeftPress = () => {
     setChapterIndex((index) => index + 1);
@@ -118,7 +144,7 @@ export default function ReadScreen({ route }: ReadScreenProps) {
         <FlatList
           data={images}
           renderItem={handleRenderImage}
-          keyExtractor={(_, i) => i.toString()}
+          keyExtractor={keyExtractor}
         />
       )}
     </View>

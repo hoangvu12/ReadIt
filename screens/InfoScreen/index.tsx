@@ -1,7 +1,7 @@
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { RouteProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Dimensions,
   Image,
@@ -17,8 +17,9 @@ import TextIcon from "../../components/TextIcon";
 import { ScrollView, Text } from "../../components/Themed";
 import useMangaInfo from "../../hooks/useMangaInfo";
 import MangaInfoLayout from "../../loaders/MangaInfoLayout";
-import { RootStackParamList } from "../../types";
+import { Manga, RootStackParamList } from "../../types";
 import { moderateScale } from "../../utils/scale";
+import Storage from "../../utils/storage";
 
 const { height } = Dimensions.get("window");
 
@@ -34,11 +35,35 @@ type InfoScreenProps = {
 };
 
 export default function InfoScreen({ route, navigation }: InfoScreenProps) {
+  const [visitedChapterIndex, setVisitedChapterIndex] = useState<
+    number | undefined
+  >(undefined);
+
   const { slug, id } = route.params;
+
+  useEffect(() => {
+    const getVisitedChapterIndex = async () => {
+      const visitedInfo = await Storage.findOne<Manga>("visited", { id });
+
+      setVisitedChapterIndex(visitedInfo?.chapterIndex);
+    };
+
+    getVisitedChapterIndex();
+  }, []);
 
   const { data, isLoading } = useMangaInfo({ slug, id });
 
   if (isLoading) return <MangaInfoLayout />;
+
+  const handleButtonPress = (chapterIndex: number) => () => {
+    navigation.navigate("ReadScreen", {
+      mangaId: id,
+      mangaSlug: slug,
+      image: data!.image,
+      title: data!.title,
+      chapterIndex,
+    });
+  };
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -93,25 +118,17 @@ export default function InfoScreen({ route, navigation }: InfoScreenProps) {
             <Button
               text="Đọc từ đầu"
               style={{ marginRight: 10 }}
-              onPress={() =>
-                navigation.navigate("ReadScreen", {
-                  mangaId: id,
-                  mangaSlug: slug,
-                  chapterIndex: data?.chapters.length! - 1,
-                })
-              }
+              onPress={handleButtonPress(data?.chapters.length! - 1)}
             />
-            <Button
-              text="Đọc mới nhất"
-              onPress={() =>
-                navigation.navigate("ReadScreen", {
-                  mangaId: id,
-                  mangaSlug: slug,
-                  chapterIndex: 0,
-                })
-              }
-            />
+            <Button text="Đọc mới nhất" onPress={() => handleButtonPress(0)} />
           </View>
+
+          {visitedChapterIndex && visitedChapterIndex > 1 && (
+            <Button
+              text={data?.chapters[visitedChapterIndex].name!}
+              onPress={handleButtonPress(visitedChapterIndex)}
+            />
+          )}
 
           <View style={{ marginVertical: 20, alignSelf: "flex-start" }}>
             <Text

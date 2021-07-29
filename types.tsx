@@ -28,18 +28,19 @@ export interface Chapter {
   name: string;
   slug: string;
   id: number;
-  url: string;
+  url?: string;
   updatedAt?: string;
 }
 
 export interface Manga {
   image: string;
-  url: string;
+  url?: string;
   title: string;
   updatedAt?: string;
   slug: string;
   id: number;
   recentChapters: Chapter[];
+  chapterIndex?: number;
 }
 
 export type RootStackParamList = {
@@ -49,6 +50,8 @@ export type RootStackParamList = {
     mangaSlug: string;
     mangaId: number;
     chapterIndex?: number;
+    image: string;
+    title: string;
   };
   NotFound: undefined;
 };
