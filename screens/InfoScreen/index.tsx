@@ -125,7 +125,7 @@ export default function InfoScreen({ route, navigation }: InfoScreenProps) {
             <Button text="Đọc mới nhất" onPress={handleButtonPress(0)} />
           </View>
 
-          {!!visitedChapterIndex && visitedChapterIndex > 0 && (
+          {(!!visitedChapterIndex || visitedChapterIndex === 0) && (
             <Button
               text={data?.chapters[visitedChapterIndex].name!}
               onPress={handleButtonPress(visitedChapterIndex)}
