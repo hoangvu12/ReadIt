@@ -1,8 +1,6 @@
 import { AntDesign } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
 import { RouteProp } from "@react-navigation/native";
-// @ts-ignore
-import Drawer from "react-native-drawer-menu";
 import { StackNavigationProp } from "@react-navigation/stack";
 import React, { useEffect, useState } from "react";
 import {
@@ -102,80 +100,54 @@ export default function ReadScreen({ route }: ReadScreenProps) {
   const isLeftPressDisabled = chapterIndex + 1 >= chapters.length;
   const isRightPressDisabled = chapterIndex === 0;
 
-  const drawerContent = (
-    <View style={styles.drawerContainer}>
-      <FlatList
-        data={chapters}
-        renderItem={({ item }) => (
-          <TouchableOpacity onPress={() => onChange(item.id)}>
-            <View style={styles.drawerTextContainer}>
-              <Text style={[styles.drawerText]}>{item.name}</Text>
-              <Text style={[styles.drawerText, { color: "gray" }]}>
-                {item.updatedAt}
-              </Text>
-            </View>
-          </TouchableOpacity>
-        )}
-        showsVerticalScrollIndicator={false}
-      />
-    </View>
-  );
-
   return (
-    <Drawer
-      type={Drawer.types.Overlay}
-      drawerPosition={Drawer.positions.Right}
-      drawerWidth={width * 0.8}
-      drawerContent={drawerContent}
-    >
-      <View style={styles.container}>
-        <View style={styles.pickerContainer}>
-          <TouchableOpacity
-            onPress={handleArrowLeftPress}
-            disabled={isLeftPressDisabled}
-          >
-            <AntDesign
-              name="arrowleft"
-              size={24}
-              color={isLeftPressDisabled ? "gray" : "white"}
-            />
-          </TouchableOpacity>
-          <Picker
-            selectedValue={chapters[chapterIndex].id}
-            onValueChange={onChange}
-            style={styles.picker}
-          >
-            {chapters.map((chapter) => (
-              <Picker.Item
-                key={chapter.id}
-                label={chapter.name}
-                value={chapter.id}
-              />
-            ))}
-          </Picker>
-          <TouchableOpacity
-            onPress={handleArrowRightPress}
-            disabled={isRightPressDisabled}
-          >
-            <AntDesign
-              name="arrowright"
-              size={24}
-              color={isRightPressDisabled ? "gray" : "white"}
-            />
-          </TouchableOpacity>
-        </View>
-
-        {isLoading ? (
-          <MangaImageLayout />
-        ) : (
-          <FlatList
-            data={images}
-            renderItem={handleRenderImage}
-            keyExtractor={keyExtractor}
+    <View style={styles.container}>
+      <View style={styles.pickerContainer}>
+        <TouchableOpacity
+          onPress={handleArrowLeftPress}
+          disabled={isLeftPressDisabled}
+        >
+          <AntDesign
+            name="arrowleft"
+            size={24}
+            color={isLeftPressDisabled ? "gray" : "white"}
           />
-        )}
+        </TouchableOpacity>
+        <Picker
+          selectedValue={chapters[chapterIndex].id}
+          onValueChange={onChange}
+          style={styles.picker}
+        >
+          {chapters.map((chapter) => (
+            <Picker.Item
+              key={chapter.id}
+              label={chapter.name}
+              value={chapter.id}
+            />
+          ))}
+        </Picker>
+        <TouchableOpacity
+          onPress={handleArrowRightPress}
+          disabled={isRightPressDisabled}
+        >
+          <AntDesign
+            name="arrowright"
+            size={24}
+            color={isRightPressDisabled ? "gray" : "white"}
+          />
+        </TouchableOpacity>
       </View>
-    </Drawer>
+
+      {isLoading ? (
+        <MangaImageLayout />
+      ) : (
+        <FlatList
+          data={images}
+          renderItem={handleRenderImage}
+          keyExtractor={keyExtractor}
+        />
+      )}
+    </View>
   );
 }
 
@@ -197,20 +169,5 @@ const styles = StyleSheet.create({
     color: "white",
     borderWidth: 0,
     fontSize: moderateScale(20),
-  },
-  drawerContainer: {
-    flex: 1,
-    padding: 20,
-  },
-  drawerText: {
-    fontSize: moderateScale(16),
-    fontWeight: "600",
-  },
-  drawerTextContainer: {
-    flex: 1,
-    alignItems: "center",
-    marginBottom: 5,
-    justifyContent: "space-between",
-    flexDirection: "row",
   },
 });
