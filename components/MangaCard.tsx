@@ -23,8 +23,8 @@ export const ImageRatio = CardWidth / ImageWidth;
 
 export const CardMarginHorizontal = 5;
 
-export const TitleFontSize = moderateScale(16);
-export const ChapterFontSize = moderateScale(14);
+export const TitleFontSize = moderateScale(14);
+export const ChapterFontSize = moderateScale(13);
 
 interface MangaCardProps extends Manga {
   style?: StyleProp<ViewStyle>;

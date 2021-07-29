@@ -42,7 +42,8 @@ export default function Section(props: SectionProps) {
 const styles = StyleSheet.create({
   container: { marginVertical: 10 },
   title: {
-    fontSize: moderateScale(22),
+    fontSize: moderateScale(16),
     fontWeight: "600",
+    marginLeft: 5,
   },
 });

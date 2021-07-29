@@ -30,9 +30,10 @@ export default function SectionLayout(props: SectionLayoutProps) {
 
 const styles: LayoutStyles = {
   text: {
-    height: 22,
+    height: 16,
     width: width * 0.7,
     marginBottom: 10,
+    marginLeft: 5,
   },
 
   cardContainer: {

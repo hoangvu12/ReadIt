@@ -55,15 +55,17 @@ export default function InfoScreen({ route, navigation }: InfoScreenProps) {
 
   if (isLoading) return <MangaInfoLayout />;
 
-  const handleButtonPress = (chapterIndex: number) => () => {
-    navigation.navigate("ReadScreen", {
-      mangaId: id,
-      mangaSlug: slug,
-      image: data!.image,
-      title: data!.title,
-      chapterIndex,
-    });
-  };
+  const handleButtonPress =
+    (chapterIndex: number = 0) =>
+    () => {
+      navigation.navigate("ReadScreen", {
+        mangaId: id,
+        mangaSlug: slug,
+        image: data!.image,
+        title: data!.title,
+        chapterIndex,
+      });
+    };
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -120,10 +122,10 @@ export default function InfoScreen({ route, navigation }: InfoScreenProps) {
               style={{ marginRight: 10 }}
               onPress={handleButtonPress(data?.chapters.length! - 1)}
             />
-            <Button text="Đọc mới nhất" onPress={() => handleButtonPress(0)} />
+            <Button text="Đọc mới nhất" onPress={handleButtonPress(0)} />
           </View>
 
-          {visitedChapterIndex && visitedChapterIndex > 1 && (
+          {!!visitedChapterIndex && visitedChapterIndex > 0 && (
             <Button
               text={data?.chapters[visitedChapterIndex].name!}
               onPress={handleButtonPress(visitedChapterIndex)}
