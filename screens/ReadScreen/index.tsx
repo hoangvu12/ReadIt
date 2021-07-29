@@ -1,15 +1,22 @@
+import { AntDesign } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
 import { RouteProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import React, { useState } from "react";
-import { Dimensions, FlatList, StyleSheet } from "react-native";
+import {
+  Dimensions,
+  FlatList,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import Image from "react-native-scalable-image";
 import { useQueryClient } from "react-query";
 import { Text, View } from "../../components/Themed";
 import Colors from "../../constants/Colors";
-import { data as infoData } from "../../data/mangaInfo.json";
 import useMangaImages from "../../hooks/useMangaImages";
+import MangaImageLayout from "../../loaders/MangaImageLayout";
 import { Chapter, MangaInfo, RootStackParamList } from "../../types";
+import { moderateScale } from "../../utils/scale";
 
 const { width } = Dimensions.get("screen");
 
@@ -29,7 +36,7 @@ export default function ReadScreen({ route }: ReadScreenProps) {
   const {
     mangaId,
     mangaSlug,
-    chapterIndex: initialChapterIndex,
+    chapterIndex: initialChapterIndex = 0,
   } = route.params;
 
   const infoData = queryClient.getQueryData<MangaInfo>([
@@ -38,9 +45,9 @@ export default function ReadScreen({ route }: ReadScreenProps) {
   ]);
 
   const [chapters] = useState<Chapter[]>(() => infoData!.chapters);
-  const [chapterIndex, setChapterIndex] = useState(initialChapterIndex || 0);
+  const [chapterIndex, setChapterIndex] = useState(initialChapterIndex);
 
-  const { data, isLoading } = useMangaImages({
+  const { data: images, isLoading } = useMangaImages({
     nameSlug: mangaSlug,
     chapterId: chapters[chapterIndex].id,
     chapterSlug: chapters[chapterIndex].slug,
@@ -50,47 +57,91 @@ export default function ReadScreen({ route }: ReadScreenProps) {
     <Image width={width} source={{ uri: item }} />
   );
 
+  const handleArrowLeftPress = () => {
+    setChapterIndex((index) => index + 1);
+  };
+
+  const handleArrowRightPress = () => {
+    setChapterIndex((index) => index - 1);
+  };
+
   const onPickerChange = (value: number) => {
     setChapterIndex(
       chapters.findIndex((chapter) => chapter.id === Number(value))
     );
   };
 
-  if (isLoading) return <Text>Loadinggggg</Text>;
+  const isLeftPressDisabled = chapterIndex + 1 >= chapters.length;
+  const isRightPressDisabled = chapterIndex === 0;
 
   return (
-    <View>
-      <Picker
-        selectedValue={chapters[chapterIndex].id}
-        onValueChange={onPickerChange}
-        style={styles.picker}
-      >
-        {chapters.map((chapter) => (
-          <Picker.Item
-            key={chapter.id}
-            label={chapter.name}
-            value={chapter.id}
+    <View style={styles.container}>
+      <View style={styles.pickerContainer}>
+        <TouchableOpacity
+          onPress={handleArrowLeftPress}
+          disabled={isLeftPressDisabled}
+        >
+          <AntDesign
+            name="arrowleft"
+            size={24}
+            color={isLeftPressDisabled ? "gray" : "white"}
           />
-        ))}
-      </Picker>
+        </TouchableOpacity>
+        <Picker
+          selectedValue={chapters[chapterIndex].id}
+          onValueChange={onPickerChange}
+          style={styles.picker}
+        >
+          {chapters.map((chapter) => (
+            <Picker.Item
+              key={chapter.id}
+              label={chapter.name}
+              value={chapter.id}
+            />
+          ))}
+        </Picker>
+        <TouchableOpacity
+          onPress={handleArrowRightPress}
+          disabled={isRightPressDisabled}
+        >
+          <AntDesign
+            name="arrowright"
+            size={24}
+            color={isRightPressDisabled ? "gray" : "white"}
+          />
+        </TouchableOpacity>
+      </View>
 
-      <FlatList
-        data={data}
-        renderItem={handleRenderImage}
-        keyExtractor={(_, i) => i.toString()}
-      />
+      {isLoading ? (
+        <MangaImageLayout />
+      ) : (
+        <FlatList
+          data={images}
+          renderItem={handleRenderImage}
+          keyExtractor={(_, i) => i.toString()}
+        />
+      )}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  pickerContainer: {
+    width: "100%",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 20,
+  },
   picker: {
+    flex: 1,
     backgroundColor: Colors.background,
     height: 50,
     color: "white",
-    flex: 1,
     borderWidth: 0,
-    fontSize: 20,
-    padding: 30,
+    fontSize: moderateScale(20),
   },
 });

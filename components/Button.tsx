@@ -7,6 +7,7 @@ import {
   ViewStyle,
 } from "react-native";
 import Colors from "../constants/Colors";
+import { moderateScale } from "../utils/scale";
 
 interface ButtonProps {
   style?: ViewStyle;
@@ -28,13 +29,13 @@ export default function Button(props: ButtonProps) {
 
 const styles = StyleSheet.create({
   button: {
-    paddingHorizontal: 20,
+    paddingHorizontal: 15,
     paddingVertical: 10,
     backgroundColor: Colors.primary,
     borderRadius: 30,
   },
   text: {
     fontWeight: "600",
-    fontSize: 20,
+    fontSize: moderateScale(14),
   },
 });

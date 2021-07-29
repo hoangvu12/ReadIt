@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleSheet, TextStyle, ViewStyle } from "react-native";
+import { moderateScale } from "../utils/scale";
 import { Text, TextProps, View } from "./Themed";
 
 interface TextIconProps {
@@ -26,5 +27,5 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
-  textStyle: { fontSize: 16, marginLeft: 5 },
+  textStyle: { fontSize: moderateScale(16), marginLeft: 5 },
 });

@@ -10,6 +10,7 @@ import {
 } from "react-native";
 
 import { Manga } from "../types";
+import { moderateScale } from "../utils/scale";
 import { Text, View } from "./Themed";
 
 const { width: windowWidth } = Dimensions.get("window");
@@ -22,8 +23,8 @@ export const ImageRatio = CardWidth / ImageWidth;
 
 export const CardMarginHorizontal = 5;
 
-export const TitleFontSize = 20;
-export const ChapterFontSize = 16;
+export const TitleFontSize = moderateScale(16);
+export const ChapterFontSize = moderateScale(14);
 
 interface MangaCardProps extends Manga {
   style?: StyleProp<ViewStyle>;

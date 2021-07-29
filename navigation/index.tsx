@@ -15,6 +15,7 @@ import InfoScreen from "../screens/InfoScreen";
 import NotFoundScreen from "../screens/NotFoundScreen";
 import ReadScreen from "../screens/ReadScreen";
 import { RootStackParamList } from "../types";
+import { moderateScale } from "../utils/scale";
 import BottomTabNavigator from "./BottomTabNavigator";
 import LinkingConfiguration from "./LinkingConfiguration";
 
@@ -37,7 +38,7 @@ const LogoTitle = () => (
     <Text
       style={{
         marginLeft: 10,
-        fontSize: 20,
+        fontSize: moderateScale(20),
         fontWeight: "bold",
         color: Colors.primary,
       }}

@@ -18,6 +18,7 @@ import { ScrollView, Text } from "../../components/Themed";
 import useMangaInfo from "../../hooks/useMangaInfo";
 import MangaInfoLayout from "../../loaders/MangaInfoLayout";
 import { RootStackParamList } from "../../types";
+import { moderateScale } from "../../utils/scale";
 
 const { height } = Dimensions.get("window");
 
@@ -113,11 +114,17 @@ export default function InfoScreen({ route, navigation }: InfoScreenProps) {
           </View>
 
           <View style={{ marginVertical: 20, alignSelf: "flex-start" }}>
-            <Text style={{ fontSize: 16, fontWeight: "500", marginBottom: 10 }}>
+            <Text
+              style={{
+                fontSize: moderateScale(14),
+                fontWeight: "500",
+                marginBottom: 10,
+              }}
+            >
               Nội dung
             </Text>
 
-            <Text style={{ fontSize: 15, color: "gray" }}>
+            <Text style={{ fontSize: moderateScale(15), color: "gray" }}>
               {data?.description}
             </Text>
           </View>
@@ -155,7 +162,7 @@ const styles = StyleSheet.create({
     zIndex: 10,
   },
   title: {
-    fontSize: 25,
+    fontSize: moderateScale(20),
     fontWeight: "600",
     textAlign: "center",
   },

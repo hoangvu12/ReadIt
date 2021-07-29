@@ -3,6 +3,7 @@ import { FlatList, StyleSheet, View, ViewStyle } from "react-native";
 import MangaCard from "../../components/MangaCard";
 import { Text } from "../../components/Themed";
 import { Manga } from "../../types";
+import { moderateScale } from "../../utils/scale";
 
 interface SectionProps {
   data: Manga[];
@@ -41,7 +42,7 @@ export default function Section(props: SectionProps) {
 const styles = StyleSheet.create({
   container: { marginVertical: 10 },
   title: {
-    fontSize: 22,
+    fontSize: moderateScale(22),
     fontWeight: "600",
   },
 });
