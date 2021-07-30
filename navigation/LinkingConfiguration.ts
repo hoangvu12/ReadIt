@@ -12,6 +12,7 @@ export default {
     screens: {
       InfoScreen: "info",
       ReadScreen: "read",
+      SearchScreen: "search",
       Root: {
         screens: {
           Home: {

@@ -14,6 +14,7 @@ import Colors from "../constants/Colors";
 import InfoScreen from "../screens/InfoScreen";
 import NotFoundScreen from "../screens/NotFoundScreen";
 import ReadScreen from "../screens/ReadScreen";
+import SearchScreen from "../screens/SearchScreen";
 import { RootStackParamList } from "../types";
 import { moderateScale } from "../utils/scale";
 import BottomTabNavigator from "./BottomTabNavigator";
@@ -76,6 +77,7 @@ function RootNavigator() {
         options={{ headerShown: false }}
       />
       <Stack.Screen name="ReadScreen" component={ReadScreen} />
+      <Stack.Screen name="SearchScreen" component={SearchScreen} />
       <Stack.Screen
         name="NotFound"
         component={NotFoundScreen}

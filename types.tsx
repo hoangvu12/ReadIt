@@ -39,7 +39,8 @@ export interface Manga {
   updatedAt?: string;
   slug: string;
   id: number;
-  recentChapters: Chapter[];
+  recentChapters?: Chapter[];
+  latestChapter?: string;
   chapterIndex?: number;
 }
 
@@ -54,6 +55,7 @@ export type RootStackParamList = {
     title: string;
   };
   NotFound: undefined;
+  SearchScreen: undefined;
 };
 
 export type BottomTabParamList = {

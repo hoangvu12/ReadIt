@@ -39,3 +39,9 @@ const getImageUrl = (image: string) => {
     image
   )}`;
 };
+
+export const searchManga = async (keyword: string): Promise<Manga[]> => {
+  const { data } = await axios.get("/search", { params: { keyword } });
+
+  return data.data;
+};

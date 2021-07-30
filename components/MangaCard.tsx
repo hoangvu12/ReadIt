@@ -31,7 +31,8 @@ interface MangaCardProps extends Manga {
 }
 
 export default function MangaCard(props: MangaCardProps) {
-  const { image, title, recentChapters, slug, id, style } = props;
+  const { image, title, recentChapters, slug, id, latestChapter, style } =
+    props;
 
   const navigation = useNavigation();
 
@@ -45,7 +46,9 @@ export default function MangaCard(props: MangaCardProps) {
           <Text style={styles.title} numberOfLines={1}>
             {title}
           </Text>
-          <Text style={styles.chapter}>{recentChapters[0].name}</Text>
+          <Text style={styles.chapter}>
+            {recentChapters ? recentChapters[0].name : latestChapter!}
+          </Text>
         </View>
       </TouchableOpacity>
     </View>
