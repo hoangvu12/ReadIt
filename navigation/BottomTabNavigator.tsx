@@ -11,8 +11,9 @@ import {
 } from "@react-navigation/stack";
 import * as React from "react";
 import Colors from "../constants/Colors";
+import GenreScreen from "../screens/GenreScreen";
 import HomeScreen from "../screens/HomeScreen";
-import { BottomTabParamList, HomeParamList } from "../types";
+import { BottomTabParamList, GenreParamList, HomeParamList } from "../types";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -28,6 +29,16 @@ export default function BottomTabNavigator() {
         options={{
           tabBarIcon: ({ color }) => (
             <TabBarIcon name="home-outline" color={color} />
+          ),
+        }}
+      />
+
+      <BottomTab.Screen
+        name="Genre"
+        component={GenreNavigator}
+        options={{
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name="menu-outline" color={color} />
           ),
         }}
       />
@@ -57,5 +68,15 @@ function HomeNavigator() {
     <HomeScreenStack.Navigator screenOptions={defaultScreenOptions}>
       <HomeScreenStack.Screen name="HomeScreen" component={HomeScreen} />
     </HomeScreenStack.Navigator>
+  );
+}
+
+const GenreStack = createStackNavigator<GenreParamList>();
+
+function GenreNavigator() {
+  return (
+    <GenreStack.Navigator screenOptions={defaultScreenOptions}>
+      <GenreStack.Screen name="GenreScreen" component={GenreScreen} />
+    </GenreStack.Navigator>
   );
 }

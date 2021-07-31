@@ -30,7 +30,7 @@ interface MangaCardProps extends Manga {
   style?: StyleProp<ViewStyle>;
 }
 
-export default function MangaCard(props: MangaCardProps) {
+function MangaCard(props: MangaCardProps) {
   const { image, title, recentChapters, slug, id, latestChapter, style } =
     props;
 
@@ -54,6 +54,8 @@ export default function MangaCard(props: MangaCardProps) {
     </View>
   );
 }
+
+export default React.memo(MangaCard);
 
 const styles = StyleSheet.create({
   image: {

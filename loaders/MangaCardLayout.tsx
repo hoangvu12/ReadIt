@@ -1,5 +1,5 @@
 import React from "react";
-import { View, ViewStyle } from "react-native";
+import { StyleProp, View, ViewStyle } from "react-native";
 import {
   CardMarginHorizontal,
   CardWidth,
@@ -11,8 +11,8 @@ import {
 import Loader from "./";
 
 interface MangaCardLayoutProps {
-  style?: ViewStyle;
-  cardStyle?: ViewStyle;
+  style?: StyleProp<ViewStyle>;
+  cardStyle?: StyleProp<ViewStyle>;
 }
 
 const MangaCardLayout = ({ style, cardStyle }: MangaCardLayoutProps) => (

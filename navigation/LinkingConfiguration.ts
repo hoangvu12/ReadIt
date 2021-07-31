@@ -20,6 +20,11 @@ export default {
               HomeScreen: "home",
             },
           },
+          Genre: {
+            screens: {
+              GenreScreen: "genre",
+            },
+          },
         },
       },
       NotFound: "*",

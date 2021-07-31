@@ -45,3 +45,26 @@ export const searchManga = async (keyword: string): Promise<Manga[]> => {
 
   return data.data;
 };
+
+interface GenreMangaData {
+  sort: string;
+  status: string;
+  slug: string;
+  page: number;
+}
+
+export interface GenreMangaResponse {
+  success: true;
+  data: Manga[];
+  totalPage: number;
+  currentPage: number;
+  nextPage: number;
+}
+
+export const getGenreManga = async (
+  props: GenreMangaData
+): Promise<GenreMangaResponse> => {
+  const { data } = await axios.get("/genre", { params: props });
+
+  return data;
+};
