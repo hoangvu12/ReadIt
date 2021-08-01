@@ -38,6 +38,7 @@ export default function SearchScreen() {
         placeholder="Tìm kiếm"
         style={styles.input}
         onChangeText={onChange}
+        placeholderTextColor="gray" 
       />
 
       {isLoading ? (

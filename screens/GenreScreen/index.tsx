@@ -60,7 +60,7 @@ export default function GenreScreen() {
 
   if (isError) {
     return (
-      <Text style={{ textAlign: "center" }}>
+      <Text style={{ textAlign: "center", color: "white" }}>
         Lỗi, vui lòng khởi động lại app
       </Text>
     );
@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   selectsContainer: {
-    marginBottom: 20,
+    paddingVertical: 10,
     backgroundColor: Colors.background,
   },
   picker: {
