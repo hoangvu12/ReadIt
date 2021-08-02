@@ -117,21 +117,23 @@ export default function GenreScreen() {
         </Picker>
       </View>
 
-      {isLoading ? (
-        <CardColumnLayout cardStyle={styles.cardStyle} />
-      ) : (
-        <FlatList
-          data={data?.pages.map(({ data }) => data).flat()}
-          renderItem={handleRenderItem}
-          keyExtractor={keyExtractor}
-          key="genre"
-          numColumns={2}
-          onEndReached={handleEndReached}
-          onEndReachedThreshold={0.05}
-          ListFooterComponentStyle={{ opacity: isFetchingNextPage ? 1 : 0 }}
-          ListFooterComponent={loadingComponent}
-        />
-      )}
+      <View style={{ flex: 1 }}>
+        {isLoading ? (
+          <CardColumnLayout cardStyle={styles.cardStyle} />
+        ) : (
+          <FlatList
+            data={data?.pages.map(({ data }) => data).flat()}
+            renderItem={handleRenderItem}
+            keyExtractor={keyExtractor}
+            key="genre"
+            numColumns={2}
+            onEndReached={handleEndReached}
+            onEndReachedThreshold={0.05}
+            ListFooterComponentStyle={{ opacity: isFetchingNextPage ? 1 : 0 }}
+            ListFooterComponent={loadingComponent}
+          />
+        )}
+      </View>
     </View>
   );
 }
